@@ -74,12 +74,6 @@ chernov::List< T > & chernov::List< T >::operator=(List< T > && list)
 }
 
 template< class T >
-size_t chernov::List< T >::size() const noexcept
-{
-  return size_;
-}
-
-template< class T >
 chernov::LIter< T > chernov::List< T >::before_begin() const noexcept
 {
   return {fake_};
@@ -102,6 +96,19 @@ chernov::LCIter< T > chernov::List< T >::cbegin() const noexcept
 {
   return {fake_->next};
 }
+
+template< class T >
+bool chernov::List< T >::empty() const noexcept
+{
+  return size_ != 0;
+}
+
+template< class T >
+size_t chernov::List< T >::size() const noexcept
+{
+  return size_;
+}
+
 
 template< class T >
 void chernov::List< T >::clear() noexcept
