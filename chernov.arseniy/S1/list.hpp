@@ -34,6 +34,8 @@ namespace chernov {
     bool empty() const noexcept;
     size_t size() const noexcept;
     void clear() noexcept;
+    LIter< T > insert_after(LIter< T > pos, const T & value);
+    LIter< T > insert_after(LIter< T > pos, T && value);
   };
 }
 

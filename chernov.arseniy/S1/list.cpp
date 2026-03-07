@@ -120,4 +120,29 @@ void chernov::List< T >::clear() noexcept
     node = next;
   }
   size_ = 0;
+  fake_->next = nullptr;
+}
+
+template< class T >
+chernov::LIter< T > chernov::List< T >::insert_after(LIter< T > pos, const T & value)
+{
+  Node< T > * node = new Node< T >(value, pos.ptr->next);
+  if (node->next == nullptr) {
+    node->next = node;
+  }
+  pos.ptr->next = node;
+  ++size_;
+  return {node};
+}
+
+template< class T >
+chernov::LIter< T > chernov::List< T >::insert_after(LIter< T > pos, T && value)
+{
+  Node< T > * node = new Node< T >(std::move(value), pos.ptr->next);
+  if (node->next == nullptr) {
+    node->next = node;
+  }
+  pos.ptr->next = node;
+  ++size_;
+  return {node};
 }
