@@ -23,9 +23,9 @@ namespace chernov {
     List();
     ~List() noexcept;
     List(const List< T > & list);
-    List(List< T > && list);
+    List(List< T > && list) noexcept;
     List< T > & operator=(const List< T > & list);
-    List< T > & operator=(List< T > && list);
+    List< T > & operator=(List< T > && list) noexcept;
     
     LIter< T > before_begin() const noexcept;
     LCIter< T > cbefore_begin() const noexcept;
@@ -33,9 +33,11 @@ namespace chernov {
     LCIter< T > cbegin() const noexcept;
     bool empty() const noexcept;
     size_t size() const noexcept;
-    void clear() noexcept;
+    void clear();
     LIter< T > insert_after(LIter< T > pos, const T & value);
     LIter< T > insert_after(LIter< T > pos, T && value);
+    LIter< T > erase_after(LIter< T > pos);
+    LIter< T > erase_after(LIter< T > first, LIter< T > last);
   };
 }
 

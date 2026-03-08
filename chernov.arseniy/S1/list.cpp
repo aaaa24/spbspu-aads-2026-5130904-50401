@@ -38,7 +38,7 @@ chernov::List< T >::List(const List< T > & list):
 }
 
 template< class T >
-chernov::List< T >::List(List< T > && list):
+chernov::List< T >::List(List< T > && list) noexcept:
   fake_(list.fake_),
   size_(list.size_)
 {
@@ -60,7 +60,7 @@ chernov::List< T > & chernov::List< T >::operator=(const List< T > & list)
 }
 
 template< class T >
-chernov::List< T > & chernov::List< T >::operator=(List< T > && list)
+chernov::List< T > & chernov::List< T >::operator=(List< T > && list) noexcept
 {
   if (this == &list) {
     return *this;
@@ -145,4 +145,27 @@ chernov::LIter< T > chernov::List< T >::insert_after(LIter< T > pos, T && value)
   pos.ptr->next = node;
   ++size_;
   return {node};
+}
+
+template< class T >
+chernov::LIter< T > chernov::List< T >::erase_after(LIter< T > pos)
+{
+  if (pos.ptr == nullptr || pos.ptr->next == nullptr) {
+    return {nullptr};
+  }
+  Node< T > * del_node = pos.ptr->next;
+  Node< T > * next = del_node->next;
+  pos.ptr->next = del_node == next ? nullptr : next;
+  delete del_node;
+  --size_;
+  return {pos.ptr->next};
+}
+
+template< class T >
+chernov::LIter< T > chernov::List< T >::erase_after(LIter< T > first, LIter< T > last)
+{
+  while (first.ptr->next != nullptr && first.ptr->next != last.ptr) {
+    erase_after(first);
+  }
+  return last;
 }
