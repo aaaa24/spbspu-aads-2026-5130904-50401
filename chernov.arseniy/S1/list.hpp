@@ -38,6 +38,8 @@ namespace chernov {
     LIter< T > insert_after(LIter< T > pos, T && value);
     LIter< T > erase_after(LIter< T > pos);
     LIter< T > erase_after(LIter< T > first, LIter< T > last);
+    void push_front(const T & value);
+    void push_front(T && value);
   };
 }
 

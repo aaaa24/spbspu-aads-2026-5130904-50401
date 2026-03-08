@@ -169,3 +169,15 @@ chernov::LIter< T > chernov::List< T >::erase_after(LIter< T > first, LIter< T >
   }
   return last;
 }
+
+template< class T >
+void chernov::List< T >::push_front(const T & value)
+{
+  insert_after(fake_, value);
+}
+
+template< class T >
+void chernov::List< T >::push_front(T && value)
+{
+  insert_after(fake_, std::move(value));
+}
