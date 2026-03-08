@@ -8,9 +8,10 @@ namespace chernov {
   class LCIter {
     friend class List< T >;
     const Node< T > * ptr;
+    const Node< T > * fake_;
+    LCIter(const Node< T > * node, const Node< T > * fake);
   public:
     LCIter();
-    LCIter(const Node< T > * node);
     bool hasNext() const noexcept;
     LCIter< T > next() const;
     const T & value() const;

@@ -8,9 +8,10 @@ namespace chernov {
   class LIter {
     friend class List< T >;
     Node< T > * ptr;
+    Node< T > * fake_;
+    LIter(Node< T > * node, Node< T > * fake);
   public:
     LIter();
-    LIter(Node< T > * node);
     bool hasNext() const noexcept;
     LIter< T > next() const;
     T & value() const;

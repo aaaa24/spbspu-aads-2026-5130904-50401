@@ -1,25 +1,31 @@
 #include "lciter.hpp"
 
 template< class T >
-chernov::LCIter< T >::LCIter():
-  ptr(nullptr)
+chernov::LCIter< T >::LCIter(const Node< T > * node, const Node< T > * fake):
+  ptr(node),
+  fake_(fake)
 {}
 
 template< class T >
-chernov::LCIter< T >::LCIter(const Node< T > * node):
-  ptr(node)
+chernov::LCIter< T >::LCIter():
+  ptr(nullptr),
+  fake_(nullptr)
 {}
 
 template< class T >
 bool chernov::LCIter< T >::hasNext() const noexcept
 {
-  return ptr != nullptr;
+  return ptr != nullptr && ptr != fake_;
 }
 
 template< class T >
 chernov::LCIter< T > chernov::LCIter< T >::next() const
 {
-  return {ptr->next};
+  Node< T > * next = ptr->next;
+  if (next == fake_) {
+    next = fake_->next;
+  }
+  return {next, fake_};
 }
 
 template< class T >
@@ -44,6 +50,9 @@ template< class T >
 chernov::LCIter< T > & chernov::LCIter< T >::operator++()
 {
   ptr = ptr->next;
+  if (ptr == fake_) {
+    ptr = fake_->next;
+  }
   return *this;
 }
 

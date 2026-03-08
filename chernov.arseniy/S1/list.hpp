@@ -31,6 +31,8 @@ namespace chernov {
     LCIter< T > cbefore_begin() const noexcept;
     LIter< T > begin() const noexcept;
     LCIter< T > cbegin() const noexcept;
+    LIter< T > end() const noexcept;
+    LCIter< T > cend() const noexcept;
     bool empty() const noexcept;
     size_t size() const noexcept;
     void clear();
