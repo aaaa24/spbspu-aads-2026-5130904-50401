@@ -82,9 +82,13 @@ namespace chernov {
   {
     createFake();
     fake_->next = fake_;
-    LIter< T > pos = before_begin();
-    for (LIter< T > iter = list.begin(); iter != list.end(); ++iter) {
-      insert_after(pos, *iter);
+    if (!list.empty()) {
+      LIter< T > pos = before_begin();
+      LIter< T > iter = list.begin();
+      do {
+        pos = insert_after(pos, *iter);
+        ++iter;
+      } while (iter != list.begin());
     }
   }
 
@@ -104,9 +108,13 @@ namespace chernov {
       return *this;
     }
     clear();
-    LIter< T > pos = before_begin();
-    for (LIter< T > iter = list.begin(); iter != list.end(); ++iter) {
-      insert_after(pos, *iter);
+    if (!list.empty()) {
+      LIter< T > pos = before_begin();
+      LIter< T > iter = list.begin();
+      do {
+        pos = insert_after(pos, *iter);
+        ++iter;
+      } while (iter != list.begin());
     }
     return *this;
   }
@@ -190,7 +198,7 @@ namespace chernov {
   template< class T >
   LIter< T > List< T >::insert_after(LIter< T > pos, const T & value)
   {
-    Node< T > * node = new Node< T >(value, pos.ptr->next);
+    Node< T > * node = new Node< T >{value, pos.ptr->next};
     pos.ptr->next = node;
     ++size_;
     return {node, fake_};
@@ -199,7 +207,7 @@ namespace chernov {
   template< class T >
   LIter< T > List< T >::insert_after(LIter< T > pos, T && value)
   {
-    Node< T > * node = new Node< T >(std::move(value), pos.ptr->next);
+    Node< T > * node = new Node< T >{std::move(value), pos.ptr->next};
     pos.ptr->next = node;
     ++size_;
     return {node, fake_};
@@ -237,13 +245,13 @@ namespace chernov {
   template< class T >
   void List< T >::push_front(const T & value)
   {
-    insert_after(fake_, value);
+    insert_after(before_begin(), value);
   }
 
   template< class T >
   void List< T >::push_front(T && value)
   {
-    insert_after(fake_, std::move(value));
+    insert_after(before_begin(), std::move(value));
   }
 
   template< class T >
