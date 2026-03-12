@@ -32,7 +32,7 @@ BOOST_AUTO_TEST_CASE(test_copy_constructor)
   BOOST_CHECK(list1.begin() != list2.begin());
   BOOST_CHECK_EQUAL(list2.size(), 2);
   BOOST_CHECK_EQUAL(*list2.begin(), 2);
-  
+
   list2.push_front(3);
   BOOST_CHECK_EQUAL(list1.size(), 2);
   BOOST_CHECK_EQUAL(list2.size(), 3);
@@ -43,15 +43,15 @@ BOOST_AUTO_TEST_CASE(test_move_constructor)
   chernov::List< int > list1;
   list1.push_front(1);
   list1.push_front(2);
-  
+
   chernov::List<int> list2(std::move(list1));
-  
+
   BOOST_CHECK_EQUAL(list2.size(), 2);
   BOOST_CHECK_EQUAL(*list2.begin(), 2);
-  
+
   BOOST_CHECK_EQUAL(list1.size(), 0);
   BOOST_CHECK(list1.empty());
-  
+
   list2.push_front(3);
   BOOST_CHECK_EQUAL(list2.size(), 3);
   BOOST_CHECK_EQUAL(list1.size(), 0);
@@ -73,7 +73,7 @@ BOOST_AUTO_TEST_CASE(test_copy_operator)
   BOOST_CHECK(list1.begin() != list2.begin());
   BOOST_CHECK_EQUAL(list2.size(), 2);
   BOOST_CHECK_EQUAL(*list2.begin(), 2);
-  
+
   list2.push_front(3);
   BOOST_CHECK_EQUAL(list1.size(), 2);
   BOOST_CHECK_EQUAL(list2.size(), 3);
@@ -99,10 +99,10 @@ BOOST_AUTO_TEST_CASE(test_move_operator)
 
   BOOST_CHECK_EQUAL(list2.size(), 2);
   BOOST_CHECK_EQUAL(*list2.begin(), 2);
-  
+
   BOOST_CHECK_EQUAL(list1.size(), 0);
   BOOST_CHECK(list1.empty());
-  
+
   list2.push_front(3);
   BOOST_CHECK_EQUAL(list2.size(), 3);
   BOOST_CHECK_EQUAL(list1.size(), 0);
@@ -323,7 +323,7 @@ BOOST_AUTO_TEST_CASE(test_many_erase_after)
   ++last;
 
   list.erase_after(first, last);
-  
+
   BOOST_CHECK_EQUAL(list.size(), 2);
   BOOST_CHECK_EQUAL(*list.begin(), 2);
 }
@@ -345,10 +345,10 @@ BOOST_AUTO_TEST_CASE(test_many_erase_after_through_fake)
   ++last;
 
   list.erase_after(first, last);
-  
+
   BOOST_CHECK_EQUAL(list.size(), 2);
   BOOST_CHECK_EQUAL(*list.begin(), 3);
-  
+
   ++list.begin();
   BOOST_CHECK_EQUAL(*(++list.begin()), 4);
 }
@@ -367,7 +367,7 @@ BOOST_AUTO_TEST_CASE(test_push_front)
   BOOST_CHECK_EQUAL(list.first(), 3);
 
   int value = 4;
-  list.push_front(value); 
+  list.push_front(value);
   BOOST_CHECK_EQUAL(list.size(), 4);
   BOOST_CHECK_EQUAL(list.first(), 4);
 }
@@ -375,11 +375,11 @@ BOOST_AUTO_TEST_CASE(test_push_front)
 BOOST_AUTO_TEST_CASE(test_pop_front)
 {
   chernov::List< int > list;
-  
+
   list.push_front(1);
   list.pop_front();
   BOOST_CHECK_EQUAL(list.size(), 0);
-  
+
   list.push_front(2);
   list.push_front(3);
   list.pop_front();
