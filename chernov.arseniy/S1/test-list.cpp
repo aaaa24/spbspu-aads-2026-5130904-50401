@@ -109,3 +109,172 @@ BOOST_AUTO_TEST_CASE(test_move_operator)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+BOOST_AUTO_TEST_SUITE(list_iterator_tests)
+
+BOOST_AUTO_TEST_CASE(test_before_begin_iterator)
+{
+  chernov::List< int > list;
+  BOOST_CHECK(list.before_begin() == list.end());
+
+  list.push_front(1);
+  list.push_front(2);
+  BOOST_CHECK(list.before_begin() == list.end());
+  BOOST_CHECK(++list.before_begin() == list.begin());
+}
+
+BOOST_AUTO_TEST_CASE(test_сbefore_begin_iterator)
+{
+  chernov::List< int > list;
+  BOOST_CHECK(list.before_begin() == list.end());
+
+  list.push_front(1);
+  list.push_front(2);
+  BOOST_CHECK(list.before_begin() == list.end());
+  BOOST_CHECK(++list.before_begin() == list.begin());
+}
+
+BOOST_AUTO_TEST_CASE(test_begin_iterator)
+{
+  chernov::List< int > list;
+  BOOST_CHECK(list.begin() == list.end());
+
+  list.push_front(1);
+  BOOST_CHECK(list.begin() != list.end());
+  BOOST_CHECK_EQUAL(*list.begin(), 1);
+}
+
+BOOST_AUTO_TEST_CASE(test_cbegin_iterator)
+{
+  chernov::List< int > list;
+  BOOST_CHECK(list.begin() == list.end());
+
+  list.push_front(1);
+  BOOST_CHECK(list.begin() != list.end());
+  BOOST_CHECK_EQUAL(*list.begin(), 1);
+}
+
+BOOST_AUTO_TEST_CASE(test_end_iterator)
+{
+  chernov::List< int > list;
+  BOOST_CHECK(list.begin() == list.end());
+
+  list.push_front(1);
+  list.push_front(2);
+  BOOST_CHECK(list.begin() != list.end());
+  BOOST_CHECK(++list.end() == list.begin());
+}
+
+BOOST_AUTO_TEST_CASE(test_cend_iterator)
+{
+  chernov::List< int > list;
+  BOOST_CHECK(list.begin() == list.end());
+
+  list.push_front(1);
+  list.push_front(2);
+  BOOST_CHECK(list.begin() != list.end());
+  BOOST_CHECK(++list.end() == list.begin());
+}
+
+BOOST_AUTO_TEST_CASE(test_loop_iterator)
+{
+  chernov::List< int > list;
+  list.push_front(1);
+  list.push_front(2);
+  list.push_front(3);
+  BOOST_CHECK_EQUAL(list.size(), 3);
+
+  chernov::LIter< int > iter = list.begin();
+  BOOST_CHECK_EQUAL(*iter, 3);
+  ++iter;
+  BOOST_CHECK_EQUAL(*iter, 2);
+  ++iter;
+  BOOST_CHECK_EQUAL(*iter, 1);
+  ++iter;
+  BOOST_CHECK_EQUAL(*iter, 3);
+
+  BOOST_CHECK(iter == list.begin());
+}
+
+BOOST_AUTO_TEST_CASE(test_insert_after_iterator)
+{
+  chernov::List< int > list;
+  chernov::LIter< int > iter = list.insert_after(list.before_begin(), 1);
+  BOOST_CHECK(iter == list.begin());
+
+  iter = list.insert_after(iter, 2);
+  BOOST_CHECK_EQUAL(*iter, 2);
+
+  iter = list.insert_after(iter, 3);
+  BOOST_CHECK_EQUAL(*iter, 3);
+
+  ++iter;
+  BOOST_CHECK_EQUAL(*iter, 1);
+}
+
+BOOST_AUTO_TEST_CASE(test_one_erase_after_iterator)
+{
+  chernov::List< int > list;
+  BOOST_CHECK(list.erase_after(list.before_begin()) == list.end());
+
+  chernov::LIter< int > last = list.insert_after(list.before_begin(), 1);
+  list.push_front(2);
+  list.push_front(3);
+
+  BOOST_CHECK_EQUAL(*list.erase_after(last), 2);
+
+  chernov::LIter< int > iter = list.insert_after(list.before_begin(), 4);
+  iter = list.erase_after(iter);
+  BOOST_CHECK_EQUAL(list.size(), 2);
+  BOOST_CHECK_EQUAL(*iter, 1);
+  ++iter;
+  BOOST_CHECK_EQUAL(*iter, 4);
+}
+
+BOOST_AUTO_TEST_CASE(test_many_erase_after_iterator)
+{
+  chernov::List< int > list;
+  list.push_front(1);
+  list.push_front(2);
+  list.push_front(3);
+  list.push_front(4);
+  list.push_front(5);
+
+  chernov::LIter< int > first = list.before_begin();
+  chernov::LIter< int > last = list.begin();
+  ++last;
+  ++last;
+  ++last;
+
+  list.erase_after(first, last);
+  
+  BOOST_CHECK_EQUAL(list.size(), 2);
+  BOOST_CHECK_EQUAL(*list.begin(), 2);
+}
+
+BOOST_AUTO_TEST_CASE(test_many_erase_after_iterator_through_fake)
+{
+  chernov::List< int > list;
+  list.push_front(1);
+  list.push_front(2);
+  list.push_front(3);
+  list.push_front(4);
+  list.push_front(5);
+
+  chernov::LIter< int > first = list.begin();
+  ++first;
+  ++first;
+
+  chernov::LIter< int > last = list.begin();
+  ++last;
+
+  list.erase_after(first, last);
+  
+  BOOST_CHECK_EQUAL(list.size(), 2);
+  BOOST_CHECK_EQUAL(*list.begin(), 3);
+  
+  ++list.begin();
+  BOOST_CHECK_EQUAL(*(++list.begin()), 4);
+}
+
+BOOST_AUTO_TEST_SUITE_END();
