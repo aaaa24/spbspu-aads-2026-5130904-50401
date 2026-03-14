@@ -16,10 +16,6 @@ namespace chernov {
 
   template< class T >
   class List {
-    Node< T > * fake_;
-    size_t size_;
-    Node< T > * createFake();
-    void removeFake() noexcept;
   public:
     List();
     ~List() noexcept;
@@ -44,6 +40,11 @@ namespace chernov {
     void pushFront(const T & value);
     void pushFront(T && value);
     void popFront();
+  private:
+    Node< T > * fake_;
+    size_t size_;
+    Node< T > * createFake();
+    void removeFake() noexcept;
   };
 
   template< class T >

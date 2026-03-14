@@ -10,10 +10,6 @@ namespace chernov {
 
   template< class T >
   class LIter {
-    friend class List< T >;
-    Node< T > * ptr;
-    Node< T > * fake_;
-    LIter(Node< T > * node, Node< T > * fake);
   public:
     LIter();
     T & operator*() const;
@@ -22,6 +18,11 @@ namespace chernov {
     LIter< T > operator++(int);
     bool operator==(const LIter< T > & other) const noexcept;
     bool operator!=(const LIter< T > & other) const noexcept;
+  private:
+    friend class List< T >;
+    Node< T > * ptr;
+    Node< T > * fake_;
+    LIter(Node< T > * node, Node< T > * fake);
   };
 
   template< class T >

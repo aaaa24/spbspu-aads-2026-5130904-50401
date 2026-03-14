@@ -10,10 +10,6 @@ namespace chernov {
 
   template< class T >
   class LCIter {
-    friend class List< T >;
-    const Node< T > * ptr;
-    const Node< T > * fake_;
-    LCIter(const Node< T > * node, const Node< T > * fake);
   public:
     LCIter();
     const T & operator*() const;
@@ -22,6 +18,11 @@ namespace chernov {
     LCIter< T > operator++(int);
     bool operator==(const LCIter< T > & other) const noexcept;
     bool operator!=(const LCIter< T > & other) const noexcept;
+  private:
+    friend class List< T >;
+    const Node< T > * ptr;
+    const Node< T > * fake_;
+    LCIter(const Node< T > * node, const Node< T > * fake);
   };
 
   template< class T >
