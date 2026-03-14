@@ -1,4 +1,5 @@
 #include <iostream>
+#include <limits>
 
 #include "list.hpp"
 #include "liter.hpp"
@@ -11,6 +12,7 @@ int main()
   using pLCIterSize = std::pair< LCIter< size_t >, size_t >;
   List< pStrList > sequences;
   LIter< pStrList > seqs_iter = sequences.before_begin();
+  size_t MAX_SIZE_T = std::numeric_limits< size_t >::max();
 
   std::string name;
   while (std::cin >> name) {
@@ -64,6 +66,7 @@ int main()
 
   bool exist_nums = true;
   bool exist_lines = false;
+  bool is_overflow = false;
   while (exist_nums) {
     iters_iter = iters.begin();
     bool first_num = true;
@@ -78,8 +81,15 @@ int main()
           first_num = false;
         }
 
+        if (!is_overflow) {
+          if (MAX_SIZE_T - *pair.first < sum) {
+            is_overflow = true;
+          } else {
+            sum += *pair.first;
+          }
+        }
+
         std::cout << *pair.first;
-        sum += *pair.first;
         ++pair.first;
         --pair.second;
       }
@@ -97,6 +107,11 @@ int main()
   if (!exist_lines) {
     std::cout << 0 << "\n";
     return 0;
+  }
+
+  if (is_overflow) {
+    std::cout << "overflow error\n";
+    return 1;
   }
 
   sums_iter = sums.begin();
