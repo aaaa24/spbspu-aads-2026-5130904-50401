@@ -11,20 +11,20 @@ int main()
   using pStrList = std::pair< std::string, List< size_t > >;
   using pLCIterSize = std::pair< LCIter< size_t >, size_t >;
   List< pStrList > sequences;
-  LIter< pStrList > seqs_iter = sequences.before_begin();
+  LIter< pStrList > seqs_iter = sequences.beforeBegin();
   size_t MAX_SIZE_T = std::numeric_limits< size_t >::max();
 
   std::string name;
   while (std::cin >> name) {
     List< size_t > sequence;
-    LIter< size_t > seq_iter = sequence.before_begin();
+    LIter< size_t > seq_iter = sequence.beforeBegin();
 
     size_t num = 0;
     while (std::cin >> num) {
-      seq_iter = sequence.insert_after(seq_iter, num);
+      seq_iter = sequence.insertAfter(seq_iter, num);
     }
 
-    seqs_iter = sequences.insert_after(seqs_iter, {name, sequence});
+    seqs_iter = sequences.insertAfter(seqs_iter, {name, sequence});
     if (std::cin.bad()) {
       std::cerr << "bad input\n";
       return 1;
@@ -43,7 +43,7 @@ int main()
   }
 
   List < pLCIterSize > iters;
-  LIter< pLCIterSize > iters_iter = iters.before_begin();
+  LIter< pLCIterSize > iters_iter = iters.beforeBegin();
 
   bool first_name = true;
   seqs_iter = sequences.begin();
@@ -56,13 +56,13 @@ int main()
 
     std::cout << seqs_iter->first;
     if (!seqs_iter->second.empty()) {
-      iters_iter = iters.insert_after(iters_iter, {seqs_iter->second.cbegin(), seqs_iter->second.size()});
+      iters_iter = iters.insertAfter(iters_iter, {seqs_iter->second.cbegin(), seqs_iter->second.size()});
     }
   } while (++seqs_iter != sequences.begin());
   std::cout << "\n";
 
   List< size_t > sums;
-  LIter< size_t > sums_iter = sums.before_begin();
+  LIter< size_t > sums_iter = sums.beforeBegin();
 
   bool exist_nums = true;
   bool exist_lines = false;
@@ -99,7 +99,7 @@ int main()
       exist_nums = false;
     } else {
       exist_lines = true;
-      sums_iter = sums.insert_after(sums_iter, sum);
+      sums_iter = sums.insertAfter(sums_iter, sum);
       std::cout << "\n";
     }
   }

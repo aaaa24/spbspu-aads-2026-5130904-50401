@@ -28,8 +28,8 @@ namespace chernov {
     List< T > & operator=(const List< T > & list);
     List< T > & operator=(List< T > && list) noexcept;
     T & first() const;
-    LIter< T > before_begin() const noexcept;
-    LCIter< T > cbefore_begin() const noexcept;
+    LIter< T > beforeBegin() const noexcept;
+    LCIter< T > cbeforeBegin() const noexcept;
     LIter< T > begin() const noexcept;
     LCIter< T > cbegin() const noexcept;
     LIter< T > end() const noexcept;
@@ -37,13 +37,13 @@ namespace chernov {
     bool empty() const noexcept;
     size_t size() const noexcept;
     void clear();
-    LIter< T > insert_after(LIter< T > pos, const T & value);
-    LIter< T > insert_after(LIter< T > pos, T && value);
-    LIter< T > erase_after(LIter< T > pos);
-    LIter< T > erase_after(LIter< T > first, LIter< T > last);
-    void push_front(const T & value);
-    void push_front(T && value);
-    void pop_front();
+    LIter< T > insertAfter(LIter< T > pos, const T & value);
+    LIter< T > insertAfter(LIter< T > pos, T && value);
+    LIter< T > eraseAfter(LIter< T > pos);
+    LIter< T > eraseAfter(LIter< T > first, LIter< T > last);
+    void pushFront(const T & value);
+    void pushFront(T && value);
+    void popFront();
   };
 
   template< class T >
@@ -83,10 +83,10 @@ namespace chernov {
     createFake();
     fake_->next = fake_;
     if (!list.empty()) {
-      LIter< T > pos = before_begin();
+      LIter< T > pos = beforeBegin();
       LIter< T > iter = list.begin();
       do {
-        pos = insert_after(pos, *iter);
+        pos = insertAfter(pos, *iter);
         ++iter;
       } while (iter != list.begin());
     }
@@ -109,10 +109,10 @@ namespace chernov {
     }
     clear();
     if (!list.empty()) {
-      LIter< T > pos = before_begin();
+      LIter< T > pos = beforeBegin();
       LIter< T > iter = list.begin();
       do {
-        pos = insert_after(pos, *iter);
+        pos = insertAfter(pos, *iter);
         ++iter;
       } while (iter != list.begin());
     }
@@ -141,13 +141,13 @@ namespace chernov {
   }
 
   template< class T >
-  LIter< T > List< T >::before_begin() const noexcept
+  LIter< T > List< T >::beforeBegin() const noexcept
   {
     return {fake_, fake_};
   }
 
   template< class T >
-  LCIter< T > List< T >::cbefore_begin() const noexcept
+  LCIter< T > List< T >::cbeforeBegin() const noexcept
   {
     return {fake_, fake_};
   }
@@ -205,7 +205,7 @@ namespace chernov {
   }
 
   template< class T >
-  LIter< T > List< T >::insert_after(LIter< T > pos, const T & value)
+  LIter< T > List< T >::insertAfter(LIter< T > pos, const T & value)
   {
     Node< T > * node = new Node< T >{value, pos.ptr->next};
     pos.ptr->next = node;
@@ -214,7 +214,7 @@ namespace chernov {
   }
 
   template< class T >
-  LIter< T > List< T >::insert_after(LIter< T > pos, T && value)
+  LIter< T > List< T >::insertAfter(LIter< T > pos, T && value)
   {
     Node< T > * node = new Node< T >{std::move(value), pos.ptr->next};
     pos.ptr->next = node;
@@ -223,7 +223,7 @@ namespace chernov {
   }
 
   template< class T >
-  LIter< T > List< T >::erase_after(LIter< T > pos)
+  LIter< T > List< T >::eraseAfter(LIter< T > pos)
   {
     if (pos.ptr == nullptr || (pos.ptr == fake_ && fake_->next == fake_)) {
       return end();
@@ -243,7 +243,7 @@ namespace chernov {
   }
 
   template< class T >
-  LIter< T > List< T >::erase_after(LIter< T > first, LIter< T > last)
+  LIter< T > List< T >::eraseAfter(LIter< T > first, LIter< T > last)
   {
     if (first == last) {
       return last;
@@ -273,21 +273,21 @@ namespace chernov {
   }
 
   template< class T >
-  void List< T >::push_front(const T & value)
+  void List< T >::pushFront(const T & value)
   {
-    insert_after(before_begin(), value);
+    insertAfter(beforeBegin(), value);
   }
 
   template< class T >
-  void List< T >::push_front(T && value)
+  void List< T >::pushFront(T && value)
   {
-    insert_after(before_begin(), std::move(value));
+    insertAfter(beforeBegin(), std::move(value));
   }
 
   template< class T >
-  void List< T >::pop_front()
+  void List< T >::popFront()
   {
-    erase_after(before_begin());
+    eraseAfter(beforeBegin());
   }
 }
 
