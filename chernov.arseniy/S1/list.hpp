@@ -18,9 +18,9 @@ namespace chernov {
   class List {
   public:
     List();
-    ~List() noexcept;
     List(const List< T > & list);
     List(List< T > && list) noexcept;
+    ~List() noexcept;
     List< T > & operator=(const List< T > & list);
     List< T > & operator=(List< T > && list) noexcept;
     T & first() const;
